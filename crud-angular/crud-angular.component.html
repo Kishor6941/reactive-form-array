@@ -1,0 +1,102 @@
+
+<ng-container>
+<div class="col-md-6 crud-angular">
+<div>
+    <div class="form-group">
+        <label for="">Search By Name</label>
+        <input type="text" class="form-control" [(ngModel)]="searchName">
+    </div>
+</div>
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Age</th>
+            <th scope="col">HobbiesList</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of CopyData | filter : searchName; let i = index">
+          <tr>
+            <th scope="row"> {{ item?.Name  }} </th>
+            <td> {{ item?.gender  }} </td>
+            <td>{{ item?.Age}}</td>
+            <ng-container *ngFor="let hobby of item?.HobbiesList">
+              <span><td>{{hobby.hobbyField}}</td></span> 
+            </ng-container>
+            <td><button class="btn btn-danger"(click)="remove(i)">remove</button></td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+</div>
+
+
+<div class="col-md-5 form-fields">
+
+
+    <form [formGroup]="CrudAngularForm">
+        <div class="form-group mb-4">
+          <label >Name</label>
+          <input type="text" class="form-control" placeholder="Name" formControlName = 'Name'>
+          <div *ngIf="CrudAngularForm.controls['Name'].invalid && (CrudAngularForm.controls['Name'].dirty || CrudAngularForm.controls['Name'].touched)">
+            <div id="Name_error" *ngIf="CrudAngularForm.controls['Name'].invalid && (CrudAngularForm.controls['Name'].dirty || CrudAngularForm.controls['Name'].touched) " class="has-error">Name is Required</div>
+        </div>
+
+        </div>
+        <div class="form-group mb-4">
+            <label for="grouplabel">Age</label>
+            <select formControlName="Age" class="form-control">
+                <option *ngFor="let sage of age">{{sage}}</option>
+          </select>
+          <div *ngIf="CrudAngularForm.controls['Age'].invalid && (CrudAngularForm.controls['Age'].dirty || CrudAngularForm.controls['Age'].touched)">
+            <div id="Age_error" *ngIf="CrudAngularForm.controls['Age'].invalid && (CrudAngularForm.controls['Age'].dirty || CrudAngularForm.controls['Age'].touched) " class="has-error">Age is Required</div>
+        </div>
+        </div>
+
+        
+      <div class="col-md-11" formArrayName="HobbiesList">
+        <div class="" *ngFor = "let hobby of DynamicAddHobbies.controls; let i = index;" [formGroupName]="i">
+          <div class="row hobbies">
+          <label>Hobbies</label>
+          <input type="text" class="form-control col-md-5" formControlName = "hobbyField">
+          <div class="col-md-3 action-button mt-3 mb-4">
+            <button class="btn btn-primary" (click)="addHobby()">+Add</button>
+            <button class="btn btn-danger" (click)="removeHobby(i)">-Remove</button>
+          </div>
+        </div>
+        </div>
+      </div>
+
+        <div class="mb-4">
+          <label class="mb-2">Select Gender</label>
+        <div class="form-check">
+            <input class="form-check-input" value="male" type="radio" formControlName = 'gender'>
+            <label class="form-check-label">
+              Male
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input"value="female"  type="radio" formControlName = 'gender'>
+            <label class="form-check-label">
+              Female
+            </label>
+          </div>
+        </div>
+
+
+        <div class="form-group form-check mb-4">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" formControlName = 'checkInfo'>
+          <label class="form-check-label" for="exampleCheck1">All this information are verified</label>
+        </div>
+        <div class="mb-4">
+            <button type="submit" class="btn btn-primary" (click)="Add()" [disabled]="!CrudAngularForm.valid">Add</button>
+            <button type="submit" class="btn btn-info reset-button" (click)="Reset()">Reset</button>
+        </div>
+      </form>
+
+</div>
+
+</ng-container>

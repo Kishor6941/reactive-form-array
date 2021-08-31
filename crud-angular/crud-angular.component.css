@@ -1,0 +1,25 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+
+.crud-angular{
+    float: right;
+    margin: 20px 70px 0px 0px;
+}
+
+.form-fields{
+    float: left;
+    padding: 28px;
+}
+.has-error{
+    color: #f00;
+}
+.action-button {
+    display: flex;
+    justify-content: space-between;
+}
+.hobbies {
+    position: relative;
+    left: 3%;
+}
+.reset-button{
+    color: white;
+}
